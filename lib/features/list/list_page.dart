@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:todo_work/features/add_post/add_page.dart';
 import 'package:todo_work/services/todo_service.dart';
 
 class ListPage extends StatefulWidget {
@@ -10,6 +11,13 @@ class ListPage extends StatefulWidget {
 }
 
 class ListPageState extends State<ListPage> {
+  void _moveToAddPost(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const AddPage()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     var todoService = context.watch<TodoService>();
@@ -26,6 +34,11 @@ class ListPageState extends State<ListPage> {
             return Text(todo.description);
           },
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => _moveToAddPost(context),
+        tooltip: 'Add Todo',
+        child: const Icon(Icons.add),
       ),
     );
   }
