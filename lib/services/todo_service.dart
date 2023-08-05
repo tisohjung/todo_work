@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:todo_work/model/todo.dart';
 
 class TodoService with ChangeNotifier {
-  final List<Todo> _todos = [Todo(description: "Hello world")];
+  final List<Todo> _todos = [Todo(title: "Hello world")];
 
   List<Todo> get todos {
     return _todos;

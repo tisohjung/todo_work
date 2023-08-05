@@ -4,19 +4,19 @@ const uuid = Uuid();
 
 class Todo {
   final String? id;
-  final String description;
+  final String title;
 
   Todo({
     String? id,
-    required this.description,
+    required this.title,
   }) : id = id ?? uuid.v1();
 
   Todo copyWith({
     String? id,
-    String? description,
+    String? title,
   }) =>
       Todo(
         id: id ?? this.id,
-        description: description ?? this.description,
+        title: title ?? this.title,
       );
 }

@@ -8,6 +8,6 @@ class CellTodo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text("CellTodo ${todo.description}");
+    return Text(todo.title);
   }
 }
