@@ -3,7 +3,7 @@ import 'package:uuid/uuid.dart';
 const uuid = Uuid();
 
 class Todo {
-  final String? id;
+  final String id;
   final String title;
 
   Todo({
@@ -14,9 +14,10 @@ class Todo {
   Todo copyWith({
     String? id,
     String? title,
-  }) =>
-      Todo(
-        id: id ?? this.id,
-        title: title ?? this.title,
-      );
+  }) {
+    return Todo(
+      id: id ?? this.id,
+      title: title ?? this.title,
+    );
+  }
 }
