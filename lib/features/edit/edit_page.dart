@@ -4,8 +4,9 @@ import 'package:todo_work/model/todo.dart';
 import 'package:todo_work/services/todo_service.dart';
 
 class EditPage extends StatefulWidget {
-  const EditPage({super.key});
+  const EditPage({super.key, required this.todoId});
 
+  final String todoId;
   @override
   State<EditPage> createState() => EditPageState();
 }
