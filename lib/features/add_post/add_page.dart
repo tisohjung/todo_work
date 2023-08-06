@@ -26,21 +26,23 @@ class AddPageState extends State<AddPage> {
         title: const Text('AddScreen'),
       ),
       body: Center(
-        child: Column(
-          children: [
-            TextField(
-              controller: textController,
-            ),
-            const Spacer(),
-            ElevatedButton(
-              onPressed: () {
-                final text = textController.text;
-                todoState.addTodo(Todo(title: text));
-                Navigator.pop(context);
-              },
-              child: const Text("Save"),
-            )
-          ],
+        child: SafeArea(
+          child: Column(
+            children: [
+              TextField(
+                controller: textController,
+              ),
+              const Spacer(),
+              ElevatedButton(
+                onPressed: () {
+                  final text = textController.text;
+                  todoState.addTodo(Todo(title: text));
+                  Navigator.pop(context);
+                },
+                child: const Text("Save"),
+              )
+            ],
+          ),
         ),
       ),
     );
