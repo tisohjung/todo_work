@@ -24,6 +24,14 @@ class TodoService with ChangeNotifier {
     });
   }
 
+  updateTodo(Todo todo) async {
+    Future.delayed(const Duration(milliseconds: 300), () {
+      var index = _todos.indexWhere((element) => element.id == todo.id);
+      _todos[index] = todo;
+      notifyListeners();
+    });
+  }
+
   removeTodo(String id) async {
     Future.delayed(const Duration(milliseconds: 300), () {
       _todos.removeWhere((element) => element.id == id);

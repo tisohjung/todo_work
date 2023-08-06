@@ -61,5 +61,8 @@ class EditPageState extends State<EditPage> {
   }
 
   void _save(TodoService todoService, BuildContext context) {
+    final text = textController.text;
+    todoService.updateTodo(todo!.copyWith(title: text));
+    Navigator.pop(context);
   }
 }
