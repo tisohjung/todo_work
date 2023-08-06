@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:todo_work/model/todo.dart';
+import 'package:todo_work/services/todo_service.dart';
 
 class AddPage extends StatefulWidget {
   const AddPage({super.key});
@@ -14,14 +17,14 @@ class AddPageState extends State<AddPage> {
 
   @override
   Widget build(BuildContext context) {
+    var todoState = context.read<TodoService>();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text("Add"),
+        title: const Text('AddScreen'),
       ),
-      body: const Center(
+      body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
               'add page',
