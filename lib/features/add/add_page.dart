@@ -13,13 +13,15 @@ class AddPage extends StatefulWidget {
 class AddPageState extends State<AddPage> {
   final textController = TextEditingController();
 
-  void _save(BuildContext context) {
-    Navigator.of(context).pop();
+  void _save(TodoService todoService, BuildContext context) {
+    final text = textController.text;
+    todoService.addTodo(Todo(title: text));
+    Navigator.pop(context);
   }
 
   @override
   Widget build(BuildContext context) {
-    var todoState = context.read<TodoService>();
+    var todoService = context.read<TodoService>();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -37,9 +39,7 @@ class AddPageState extends State<AddPage> {
                 const Spacer(),
                 ElevatedButton(
                   onPressed: () {
-                    final text = textController.text;
-                    todoState.addTodo(Todo(title: text));
-                    Navigator.pop(context);
+                    _save(todoService, context);
                   },
                   child: const Text("Save"),
                 )
