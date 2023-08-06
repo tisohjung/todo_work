@@ -25,23 +25,26 @@ class AddPageState extends State<AddPage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: const Text('AddScreen'),
       ),
-      body: Center(
-        child: SafeArea(
-          child: Column(
-            children: [
-              TextField(
-                controller: textController,
-              ),
-              const Spacer(),
-              ElevatedButton(
-                onPressed: () {
-                  final text = textController.text;
-                  todoState.addTodo(Todo(title: text));
-                  Navigator.pop(context);
-                },
-                child: const Text("Save"),
-              )
-            ],
+      body: SafeArea(
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                TextField(
+                  controller: textController,
+                ),
+                const Spacer(),
+                ElevatedButton(
+                  onPressed: () {
+                    final text = textController.text;
+                    todoState.addTodo(Todo(title: text));
+                    Navigator.pop(context);
+                  },
+                  child: const Text("Save"),
+                )
+              ],
+            ),
           ),
         ),
       ),
