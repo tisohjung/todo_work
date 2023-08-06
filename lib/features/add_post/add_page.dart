@@ -11,6 +11,8 @@ class AddPage extends StatefulWidget {
 }
 
 class AddPageState extends State<AddPage> {
+  final textController = TextEditingController();
+
   void _save(BuildContext context) {
     Navigator.of(context).pop();
   }
@@ -25,17 +27,21 @@ class AddPageState extends State<AddPage> {
       ),
       body: Center(
         child: Column(
-          children: <Widget>[
-            Text(
-              'add page',
+          children: [
+            TextField(
+              controller: textController,
             ),
+            const Spacer(),
+            ElevatedButton(
+              onPressed: () {
+                final text = textController.text;
+                todoState.addTodo(Todo(title: text));
+                Navigator.pop(context);
+              },
+              child: const Text("Save"),
+            )
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => _save(context),
-        tooltip: 'Add Todo',
-        child: const Icon(Icons.add),
       ),
     );
   }
