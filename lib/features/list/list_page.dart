@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_work/features/add/add_page.dart';
+import 'package:todo_work/features/edit/edit_page.dart';
 import 'package:todo_work/features/list/views/cell_todo.dart';
 import 'package:todo_work/services/todo_service.dart';
 
@@ -19,6 +20,15 @@ class ListPageState extends State<ListPage> {
     );
   }
 
+  void _moveToEditPost(BuildContext context, String id) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => EditPage(todoId: id),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     var todoService = context.watch<TodoService>();
@@ -32,7 +42,11 @@ class ListPageState extends State<ListPage> {
           itemCount: todoService.todos.length,
           itemBuilder: (context, index) {
             var todo = todoService.todos[index];
-            return CellTodo(todo: todo);
+            return InkWell(
+                onTap: () {
+                  _moveToEditPost(context, todo.id);
+                },
+                child: CellTodo(todo: todo));
           },
         ),
       ),
