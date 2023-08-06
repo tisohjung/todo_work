@@ -14,13 +14,23 @@ class EditPage extends StatefulWidget {
 class EditPageState extends State<EditPage> {
   final textController = TextEditingController();
 
-  void _save(BuildContext context) {
-    Navigator.of(context).pop();
+  Todo? todo;
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      var todoService = Provider.of<TodoService>(context, listen: false);
+      todo = await todoService.getTodo(widget.todoId);
+      if (todo == null) {
+        Navigator.pop(context);
+      }
+      textController.text = todo!.title;
+    });
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    var todoState = context.read<TodoService>();
+    var todoService = context.read<TodoService>();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -38,9 +48,7 @@ class EditPageState extends State<EditPage> {
                 const Spacer(),
                 ElevatedButton(
                   onPressed: () {
-                    final text = textController.text;
-                    todoState.addTodo(Todo(title: text));
-                    Navigator.pop(context);
+                    _save(todoService, context);
                   },
                   child: const Text("Save"),
                 )
@@ -50,5 +58,8 @@ class EditPageState extends State<EditPage> {
         ),
       ),
     );
+  }
+
+  void _save(TodoService todoService, BuildContext context) {
   }
 }

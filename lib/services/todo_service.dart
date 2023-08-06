@@ -12,6 +12,11 @@ class TodoService with ChangeNotifier {
     return Future.delayed(const Duration(milliseconds: 300), () => _todos);
   }
 
+  Future<Todo> getTodo(String id) async {
+    return Future.delayed(const Duration(milliseconds: 300),
+        () => _todos.firstWhere((element) => element.id == id));
+  }
+
   addTodo(Todo todo) async {
     Future.delayed(const Duration(milliseconds: 300), () {
       _todos.add(todo);
