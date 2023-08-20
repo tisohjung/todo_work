@@ -4,9 +4,9 @@ import 'package:todo_work/model/todo.dart';
 import 'package:todo_work/services/todo_service.dart';
 
 class EditPage extends StatefulWidget {
-  const EditPage({super.key, required this.todoId});
+  const EditPage({super.key, required this.todoIndex});
 
-  final String todoId;
+  final int todoIndex;
   @override
   State<EditPage> createState() => EditPageState();
 }
@@ -19,7 +19,7 @@ class EditPageState extends State<EditPage> {
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       var todoService = Provider.of<TodoService>(context, listen: false);
-      todo = await todoService.getTodo(widget.todoId);
+      todo = await todoService.getTodoAt(widget.todoIndex);
       if (todo == null) {
         Navigator.pop(context);
       }
@@ -30,7 +30,6 @@ class EditPageState extends State<EditPage> {
 
   @override
   Widget build(BuildContext context) {
-    var todoService = context.read<TodoService>();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -52,14 +51,16 @@ class EditPageState extends State<EditPage> {
                     const Spacer(),
                     ElevatedButton(
                       onPressed: () {
-                        _save(todoService, context);
+                        _save(context);
                       },
                       child: const Text("Save"),
                     ),
                     const Spacer(),
                     ElevatedButton(
                       onPressed: () {
-                        _remove(todoService, context);
+                        if (todo != null) {
+                          _remove(context, todo!);
+                        }
                       },
                       child: const Text("Remove", style: TextStyle()),
                     ),
@@ -74,14 +75,16 @@ class EditPageState extends State<EditPage> {
     );
   }
 
-  void _save(TodoService todoService, BuildContext context) {
+  void _save(BuildContext context) {
+    var todoService = context.read<TodoService>();
     final text = textController.text;
     todoService.updateTodo(todo!.copyWith(title: text));
     Navigator.pop(context);
   }
 
-  void _remove(TodoService todoService, BuildContext context) {
-    todoService.removeTodo(todo!.id);
+  void _remove(BuildContext context, Todo todo) {
+    var todoService = context.read<TodoService>();
+    todoService.removeTodo(todo);
     Navigator.pop(context);
   }
 }
