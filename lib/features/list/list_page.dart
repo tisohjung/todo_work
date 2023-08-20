@@ -42,11 +42,17 @@ class ListPageState extends State<ListPage> {
           itemCount: todoService.todos.length,
           itemBuilder: (context, index) {
             var todo = todoService.todos[index];
-            return InkWell(
-                onTap: () {
-                  _moveToEditPost(context, todo.id);
-                },
-                child: CellTodo(todo: todo));
+            return Dismissible(
+              key: Key(todo.id),
+              onDismissed: (direction) {
+                todoService.removeTodo(todo.id);
+              },
+              child: InkWell(
+                  onTap: () {
+                    _moveToEditPost(context, todo.id);
+                  },
+                  child: CellTodo(todo: todo)),
+            );
           },
         ),
       ),
