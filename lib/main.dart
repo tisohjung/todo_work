@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_work/features/list/list_page.dart';
+import 'package:todo_work/model/constants.dart';
+import 'package:todo_work/model/todo.dart';
 import 'package:todo_work/services/todo_service.dart';
 
-void main() {
-  final todoService = TodoService();
+void main() async {
+  Hive.init('./');
+  Hive.registerAdapter(TodoAdapter());
+  await Hive.openBox<Todo>(Boxes.todoList);
+  final todoService = TodoService(todoListBox: Hive.box<Todo>(Boxes.todoList));
 
   runApp(
     MultiProvider(
