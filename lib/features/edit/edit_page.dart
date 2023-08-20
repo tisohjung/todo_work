@@ -46,11 +46,25 @@ class EditPageState extends State<EditPage> {
                   controller: textController,
                 ),
                 const Spacer(),
-                ElevatedButton(
-                  onPressed: () {
-                    _save(todoService, context);
-                  },
-                  child: const Text("Save"),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Spacer(),
+                    ElevatedButton(
+                      onPressed: () {
+                        _save(todoService, context);
+                      },
+                      child: const Text("Save"),
+                    ),
+                    const Spacer(),
+                    ElevatedButton(
+                      onPressed: () {
+                        _remove(todoService, context);
+                      },
+                      child: const Text("Remove", style: TextStyle()),
+                    ),
+                    const Spacer(),
+                  ],
                 )
               ],
             ),
@@ -63,6 +77,11 @@ class EditPageState extends State<EditPage> {
   void _save(TodoService todoService, BuildContext context) {
     final text = textController.text;
     todoService.updateTodo(todo!.copyWith(title: text));
+    Navigator.pop(context);
+  }
+
+  void _remove(TodoService todoService, BuildContext context) {
+    todoService.removeTodo(todo!.id);
     Navigator.pop(context);
   }
 }
