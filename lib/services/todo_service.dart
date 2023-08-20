@@ -1,41 +1,38 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:todo_work/model/todo.dart';
 
 class TodoService with ChangeNotifier {
-  final List<Todo> _todos = [Todo(title: "Hello world")];
+  Box<Todo> todoListBox;
+  TodoService({
+    required this.todoListBox,
+  });
 
-  List<Todo> get todos {
-    return _todos;
+  ValueListenable<Box<Todo>> getTodoList() {
+    return todoListBox.listenable();
   }
 
-  Future<List<Todo>> getTodoList() async {
-    return Future.delayed(const Duration(milliseconds: 300), () => _todos);
+  Future<Todo> getTodoAt(int index) async {
+    return todoListBox.getAt(index)!;
   }
 
-  Future<Todo> getTodo(String id) async {
-    return Future.delayed(const Duration(milliseconds: 300),
-        () => _todos.firstWhere((element) => element.id == id));
+  Future<Todo?> getTodo(String id) async {
+    // Hive actually has id of index
+    return todoListBox.get(id);
   }
 
   addTodo(Todo todo) async {
-    Future.delayed(const Duration(milliseconds: 300), () {
-      _todos.add(todo);
-      notifyListeners();
-    });
+    todoListBox.add(todo);
+    notifyListeners();
   }
 
   updateTodo(Todo todo) async {
-    Future.delayed(const Duration(milliseconds: 300), () {
-      var index = _todos.indexWhere((element) => element.id == todo.id);
-      _todos[index] = todo;
-      notifyListeners();
-    });
+    todoListBox.put(todo.id, todo);
+    notifyListeners();
   }
 
-  removeTodo(String id) async {
-    Future.delayed(const Duration(milliseconds: 300), () {
-      _todos.removeWhere((element) => element.id == id);
-      notifyListeners();
-    });
+  removeTodo(Todo todo) async {
+    todo.delete();
+    notifyListeners();
   }
 }
